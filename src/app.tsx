@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { ZodError } from "zod";
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/mode-toggle";
 
 function App() {
   const [input, setInput] = useState("");
@@ -161,7 +162,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 font-sans text-slate-900 dark:text-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 font-sans text-slate-900 dark:text-slate-50 relative">
+      <div className="absolute top-4 right-4">
+        <ModeToggle />
+      </div>
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
@@ -226,17 +230,44 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {validationResult.success ? (
               validationResult.warning ? (
-                <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20 text-yellow-900 dark:text-yellow-100">
+                <Alert className="border-yellow-500 ">
                   <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
                   <AlertTitle className="text-lg font-semibold ml-2">
                     Valid with Warnings
                   </AlertTitle>
                   <AlertDescription className="ml-2 mt-1">
-                    The manifest is valid but contains unrecognized fields.
+                    <p>
+                      The manifest is valid but contains unrecognized fields.
+                    </p>
+                    <div className="mt-4 space-y-2">
+                      {validationResult.warning.issues.map((issue, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-1 p-3 rounded-lg bg-card border text-card-foreground shadow-sm"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant="outline"
+                              className="uppercase text-[10px] border-yellow-600 text-yellow-800 dark:text-yellow-300 dark:border-yellow-400"
+                            >
+                              {issue.code}
+                            </Badge>
+                            <span className="font-mono text-sm font-bold">
+                              {issue.path.length > 0
+                                ? issue.path.join(".")
+                                : "root"}
+                            </span>
+                          </div>
+                          <p className="text-sm text-muted-foreground ml-1">
+                            {issue.message}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </AlertDescription>
                 </Alert>
               ) : (
-                <Alert className="border-green-500 bg-green-50 dark:bg-green-950/20 text-green-900 dark:text-green-100">
+                <Alert className="border-green-500">
                   <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
                   <AlertTitle className="text-lg font-semibold ml-2">
                     Valid Manifest
@@ -247,93 +278,45 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                 </Alert>
               )
             ) : (
-              <Alert
-                variant="destructive"
-                className="border-red-500 bg-red-50 dark:bg-red-950/20"
-              >
+              <Alert variant="destructive" className="border-red-500">
                 <XCircle className="h-5 w-5" />
                 <AlertTitle className="text-lg font-semibold ml-2">
                   Validation Failed
                 </AlertTitle>
                 <AlertDescription className="ml-2 mt-1">
-                  Found {validationResult.error?.issues.length} issue(s) in your
-                  manifest.
+                  <p>
+                    Found {validationResult.error?.issues.length} issue(s) in
+                    your manifest.
+                  </p>
+                  {validationResult.error && (
+                    <div className="mt-4 space-y-2">
+                      {validationResult.error.issues.map((issue, index) => (
+                        <div
+                          key={index}
+                          className="flex flex-col gap-1 p-3 rounded-lg bg-card border text-card-foreground shadow-sm"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant="destructive"
+                              className="uppercase text-[10px]"
+                            >
+                              {issue.code}
+                            </Badge>
+                            <span className="font-mono text-sm font-bold">
+                              {issue.path.length > 0
+                                ? issue.path.join(".")
+                                : "root"}
+                            </span>
+                          </div>
+                          <p className="text-sm text-muted-foreground ml-1">
+                            {issue.message}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </AlertDescription>
               </Alert>
-            )}
-
-            {validationResult.success && validationResult.warning && (
-              <Card className="border-yellow-200 dark:border-yellow-900">
-                <CardHeader>
-                  <CardTitle className="text-yellow-700 dark:text-yellow-400">
-                    Warning Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {validationResult.warning.issues.map((issue, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-col gap-1 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-100 dark:border-yellow-900/50"
-                      >
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant="outline"
-                            className="uppercase text-[10px] border-yellow-500 text-yellow-700 dark:text-yellow-400"
-                          >
-                            {issue.code}
-                          </Badge>
-                          <span className="font-mono text-sm font-bold text-slate-700 dark:text-slate-300">
-                            {issue.path.length > 0
-                              ? issue.path.join(".")
-                              : "root"}
-                          </span>
-                        </div>
-                        <p className="text-sm text-yellow-600 dark:text-yellow-300 ml-1">
-                          {issue.message}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {!validationResult.success && validationResult.error && (
-              <Card className="border-red-200 dark:border-red-900">
-                <CardHeader>
-                  <CardTitle className="text-red-700 dark:text-red-400">
-                    Error Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {validationResult.error.issues.map((issue, index) => (
-                      <div
-                        key={index}
-                        className="flex flex-col gap-1 p-3 rounded-lg bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50"
-                      >
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant="destructive"
-                            className="uppercase text-[10px]"
-                          >
-                            {issue.code}
-                          </Badge>
-                          <span className="font-mono text-sm font-bold text-slate-700 dark:text-slate-300">
-                            {issue.path.length > 0
-                              ? issue.path.join(".")
-                              : "root"}
-                          </span>
-                        </div>
-                        <p className="text-sm text-red-600 dark:text-red-300 ml-1">
-                          {issue.message}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
             )}
           </div>
         )}
