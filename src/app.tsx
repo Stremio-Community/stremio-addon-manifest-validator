@@ -189,18 +189,18 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 font-sans text-slate-900 dark:text-slate-50 relative">
+    <div className="relative min-h-screen bg-slate-50 p-4 font-sans text-slate-900 md:p-8 dark:bg-slate-950 dark:text-slate-50">
       <div className="absolute top-4 right-4">
         <ModeToggle />
       </div>
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+      <div className="mx-auto max-w-4xl space-y-8">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl dark:text-slate-50">
             Stremio Addon Validator
           </h1>
           <p className="text-slate-500 dark:text-slate-400">
             Validate your{" "}
-            <code className="bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">
+            <code className="rounded bg-slate-100 px-1 py-0.5 dark:bg-slate-800">
               manifest.json
             </code>{" "}
             against the official schema.
@@ -249,14 +249,14 @@ function App() {
                 placeholder='Paste JSON, URL, or drag file here...
 Example URL: https://example.com/manifest.json
 Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
-                className="min-h-[300px] font-mono text-sm border-0 bg-transparent resize-y focus-visible:ring-0 p-4"
+                className="min-h-[300px] resize-y border-0 bg-transparent p-4 font-mono text-sm focus-visible:ring-0"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onBlur={formatJson}
                 onPaste={handlePaste}
               />
-              <div className="absolute bottom-4 right-4 pointer-events-none opacity-50">
-                <UploadCloud className="h-8 w-8 text-muted-foreground" />
+              <div className="pointer-events-none absolute right-4 bottom-4 opacity-50">
+                <UploadCloud className="text-muted-foreground h-8 w-8" />
               </div>
             </div>
           </CardContent>
@@ -272,15 +272,15 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
         </Card>
 
         {validationResult && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500">
             {validationResult.success ? (
               validationResult.warning ? (
-                <Alert className="border-yellow-500 ">
+                <Alert className="border-yellow-500">
                   <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
-                  <AlertTitle className="text-lg font-semibold ml-2">
+                  <AlertTitle className="ml-2 text-lg font-semibold">
                     Valid with Warnings
                   </AlertTitle>
-                  <AlertDescription className="ml-2 mt-1">
+                  <AlertDescription className="mt-1 ml-2">
                     <p>
                       The manifest is valid but contains unrecognized fields.
                     </p>
@@ -288,12 +288,12 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                       {validationResult.warning.issues.map((issue, index) => (
                         <div
                           key={index}
-                          className="flex flex-col gap-1 p-3 rounded-lg bg-card border text-card-foreground shadow-sm"
+                          className="bg-card text-card-foreground flex flex-col gap-1 rounded-lg border p-3 shadow-sm"
                         >
-                          <div className="flex items-center gap-2 flex-wrap">
+                          <div className="flex flex-wrap items-center gap-2">
                             <Badge
                               variant="outline"
-                              className="uppercase text-[10px] border-yellow-600 text-yellow-800 dark:text-yellow-300 dark:border-yellow-400"
+                              className="border-yellow-600 text-[10px] text-yellow-800 uppercase dark:border-yellow-400 dark:text-yellow-300"
                             >
                               {issue.code}
                             </Badge>
@@ -303,7 +303,7 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                                 : "root"}
                             </span>
                           </div>
-                          <p className="text-sm text-muted-foreground ml-1">
+                          <p className="text-muted-foreground ml-1 text-sm">
                             {issue.message}
                           </p>
                         </div>
@@ -314,10 +314,10 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
               ) : (
                 <Alert className="border-green-500">
                   <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  <AlertTitle className="text-lg font-semibold ml-2">
+                  <AlertTitle className="ml-2 text-lg font-semibold">
                     Valid Manifest
                   </AlertTitle>
-                  <AlertDescription className="ml-2 mt-1">
+                  <AlertDescription className="mt-1 ml-2">
                     Your manifest follows the correct format and schema.
                   </AlertDescription>
                 </Alert>
@@ -325,10 +325,10 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
             ) : (
               <Alert variant="destructive" className="border-red-500">
                 <XCircle className="h-5 w-5" />
-                <AlertTitle className="text-lg font-semibold ml-2">
+                <AlertTitle className="ml-2 text-lg font-semibold">
                   Validation Failed
                 </AlertTitle>
-                <AlertDescription className="ml-2 mt-1">
+                <AlertDescription className="mt-1 ml-2">
                   <p>
                     Found {validationResult.error?.issues.length} issue(s) in
                     your manifest.
@@ -338,12 +338,12 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                       {validationResult.error.issues.map((issue, index) => (
                         <div
                           key={index}
-                          className="flex flex-col gap-1 p-3 rounded-lg bg-card border text-card-foreground shadow-sm"
+                          className="bg-card text-card-foreground flex flex-col gap-1 rounded-lg border p-3 shadow-sm"
                         >
                           <div className="flex items-center gap-2">
                             <Badge
                               variant="destructive"
-                              className="uppercase text-[10px]"
+                              className="text-[10px] uppercase"
                             >
                               {issue.code}
                             </Badge>
@@ -353,7 +353,7 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                                 : "root"}
                             </span>
                           </div>
-                          <p className="text-sm text-muted-foreground ml-1">
+                          <p className="text-muted-foreground ml-1 text-sm">
                             {issue.message}
                           </p>
                         </div>
