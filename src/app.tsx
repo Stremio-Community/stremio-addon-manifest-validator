@@ -19,6 +19,7 @@ import {
   AlertTriangle,
   Share2,
   Check,
+  Github,
 } from "lucide-react";
 import { ZodError } from "zod";
 import { cn } from "@/lib/utils";
@@ -189,11 +190,11 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50 p-4 font-sans text-slate-900 md:p-8 dark:bg-slate-950 dark:text-slate-50">
+    <div className="relative flex min-h-screen flex-col bg-slate-50 p-4 font-sans text-slate-900 md:p-8 dark:bg-slate-950 dark:text-slate-50">
       <div className="absolute top-4 right-4">
         <ModeToggle />
       </div>
-      <div className="mx-auto max-w-4xl space-y-8">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl dark:text-slate-50">
             Stremio Addon Manifest Validator
@@ -365,6 +366,18 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
             )}
           </div>
         )}
+
+        <footer className="text-muted-foreground mt-auto pb-8 text-center text-sm">
+          <a
+            href="https://github.com/stremio-community/stremio-addon-manifest-validator"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-foreground inline-flex items-center gap-2 transition-colors"
+          >
+            <Github className="h-4 w-4" />
+            Source code
+          </a>
+        </footer>
       </div>
     </div>
   );
