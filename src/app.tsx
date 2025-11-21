@@ -196,7 +196,7 @@ function App() {
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl dark:text-slate-50">
-            Stremio Addon Validator
+            Stremio Addon Manifest Validator
           </h1>
           <p className="text-slate-500 dark:text-slate-400">
             Validate your{" "}
