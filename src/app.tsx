@@ -17,14 +17,18 @@ import {
   XCircle,
   UploadCloud,
   AlertTriangle,
+  Share2,
+  Check,
 } from "lucide-react";
 import { ZodError } from "zod";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
+import LZString from "lz-string";
 
 function App() {
   const [input, setInput] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [validationResult, setValidationResult] = useState<{
     success: boolean;
     data?: unknown;
@@ -32,6 +36,15 @@ function App() {
     warning?: ZodError;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleShare = () => {
+    const compressed = LZString.compressToEncodedURIComponent(input);
+    const newUrl = `${window.location.pathname}?data=${compressed}`;
+    window.history.replaceState({}, "", newUrl);
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   useEffect(() => {
     const trimmedInput = input.trim();
@@ -56,13 +69,14 @@ function App() {
     }
   }, [input]);
 
-  const handleValidate = async () => {
+  const handleValidate = async (arg?: string | React.MouseEvent) => {
     setIsLoading(true);
     setValidationResult(null);
     let dataToValidate: unknown;
 
     try {
-      const trimmedInput = input.trim();
+      const currentInput = typeof arg === "string" ? arg : input;
+      const trimmedInput = currentInput.trim();
       if (!trimmedInput) {
         throw new Error("Please enter JSON content or a URL");
       }
@@ -108,6 +122,19 @@ function App() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get("data");
+    if (data) {
+      const decompressed = LZString.decompressFromEncodedURIComponent(data);
+      if (decompressed) {
+        setInput(decompressed);
+        handleValidate(decompressed);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -182,11 +209,29 @@ function App() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Input Manifest</CardTitle>
-            <CardDescription>
-              Paste your manifest JSON, a URL, or drag & drop your manifest.json
-              file below.
-            </CardDescription>
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-1.5">
+                <CardTitle>Input Manifest</CardTitle>
+                <CardDescription>
+                  Paste your manifest JSON, a URL, or drag & drop your
+                  manifest.json file below.
+                </CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleShare}
+                disabled={!input.trim()}
+                title="Share / Copy Link"
+                className="shrink-0"
+              >
+                {isCopied ? (
+                  <Check className="h-4 w-4 text-green-500" />
+                ) : (
+                  <Share2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             <div
@@ -245,7 +290,7 @@ Example JSON: { "id": "org.myaddon", "version": "1.0.0", ... }'
                           key={index}
                           className="flex flex-col gap-1 p-3 rounded-lg bg-card border text-card-foreground shadow-sm"
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <Badge
                               variant="outline"
                               className="uppercase text-[10px] border-yellow-600 text-yellow-800 dark:text-yellow-300 dark:border-yellow-400"
