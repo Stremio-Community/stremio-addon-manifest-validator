@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "preview": "vite preview",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format": "prettier --check .",
+    "format:fix": "prettier --write ."
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
