@@ -2,8 +2,6 @@
 
 A simple, user-friendly web application for validating Stremio addon `manifest.json` files. This tool helps developers ensure their addons comply with the official Stremio Manifest schema by providing detailed error reporting and warnings for unknown fields.
 
-![Stremio Addon Manifest Validator](public/favicon.svg)
-
 ## Features
 
 - **Full Schema Validation**: Validates your manifest using the type-safe, community-maintained [@stremio-addon/zod](https://github.com/stremio-community/stremio-addon-sdk) package.
