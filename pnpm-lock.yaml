@@ -18,8 +18,8 @@ importers:
         specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.2.3(@types/react@19.2.6))(@types/react@19.2.6)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@stremio-addon/zod':
-        specifier: ^0.2.0
-        version: 0.2.0(zod@4.1.12)
+        specifier: ^0.2.2
+        version: 0.2.2(zod@4.1.12)
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -723,13 +723,13 @@ packages:
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
 
-  '@stremio-addon/sdk@0.3.0':
-    resolution: {integrity: sha512-x17bDoXk8huy+UzLRW+iCSwDSOLldL1IU5z5KGZnQ1zpl5cmURBF4mlk6qi36cXUpjXTfV5ldIpdyXPfQ81k/w==}
+  '@stremio-addon/sdk@0.3.1':
+    resolution: {integrity: sha512-J9sisZOSeFvAABbIPr4RsWHw39Awf5mMNE+PRBxv9+bQOU63+I7Dot/EmioCtXC1Znv73vvW5bhCSQ9iypAObA==}
 
-  '@stremio-addon/zod@0.2.0':
-    resolution: {integrity: sha512-ZgCm1O7uInxZnJ7aFKSiIFYD0DDf8Xck1j0oEsbDQo6oKF+zMUMTbCnaOAfOD9I+U5dbgWRrRUZgGnVQ2Kz/aA==}
+  '@stremio-addon/zod@0.2.2':
+    resolution: {integrity: sha512-8JLadqJPG8JKDTT3zFW6ET1XHExEgRfAETFh4CxN9hy7kXkKjwnclQPXnZpv2U8+XGCR1CkVa937KhoYFHAMDQ==}
     peerDependencies:
-      zod: ^4.1.11
+      zod: ^3.25.0 || ^4.0.0
 
   '@tailwindcss/node@4.1.17':
     resolution: {integrity: sha512-csIkHIgLb3JisEFQ0vxr2Y57GUNYh447C8xzwj89U/8fdW8LhProdxvnVH6U8M2Y73QKiTIH+LWbK3V2BBZsAg==}
@@ -2158,14 +2158,14 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
-  '@stremio-addon/sdk@0.3.0':
+  '@stremio-addon/sdk@0.3.1':
     dependencies:
       '@standard-schema/spec': 1.0.0
       path-to-regexp: 8.3.0
 
-  '@stremio-addon/zod@0.2.0(zod@4.1.12)':
+  '@stremio-addon/zod@0.2.2(zod@4.1.12)':
     dependencies:
-      '@stremio-addon/sdk': 0.3.0
+      '@stremio-addon/sdk': 0.3.1
       zod: 4.1.12
 
   '@tailwindcss/node@4.1.17':
