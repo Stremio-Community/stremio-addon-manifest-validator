@@ -126,8 +126,13 @@ function App() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const url = params.get("url");
     const data = params.get("data");
-    if (data) {
+
+    if (url) {
+      setInput(url);
+      handleValidate(url);
+    } else if (data) {
       const decompressed = LZString.decompressFromEncodedURIComponent(data);
       if (decompressed) {
         setInput(decompressed);
