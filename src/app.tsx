@@ -209,7 +209,15 @@ function App() {
             <code className="rounded bg-slate-100 px-1 py-0.5 dark:bg-slate-800">
               manifest.json
             </code>{" "}
-            against the official schema.
+            against the{" "}
+            <a
+              className="text-primary underline"
+              href="https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/manifest.md"
+              target="_blank"
+            >
+              official schema
+            </a>
+            .
           </p>
         </div>
 
